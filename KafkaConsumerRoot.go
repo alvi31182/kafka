@@ -17,6 +17,12 @@ func NewKafkaConsumer(kconf *KafkaConfiguration) (*KafkaConsumer, error) {
 func (kc KafkaConsumer) Consume(ctx context.Context, topic string) (<-chan *sarama.ConsumerMessage, error) {
 	config, err := kc.kconf.KafkaConfig()
 	if err != nil {
+		fmt.Println(config)
+		return nil, err
+	}
+
+	client, err := sarama.NewClient([]string{kc.kconf.DNS}, config)
+	if err != nil {
 		return nil, err
 	}
 
@@ -31,7 +37,7 @@ func (kc KafkaConsumer) Consume(ctx context.Context, topic string) (<-chan *sara
 		return nil, err
 	}
 
-	offsetManager, err := sarama.NewOffsetManagerFromClient(kc.kconf.ConsumerGroup, consumer)
+	offsetManager, err := sarama.NewOffsetManagerFromClient(kc.kconf.ConsumerGroup, client)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,6 @@
 package kafka
 
 import (
-	"os"
 	"time"
 
 	"github.com/IBM/sarama"
@@ -16,10 +15,11 @@ type KafkaConfiguration struct {
 }
 
 func KafkaConfig() (*KafkaConfiguration, error) {
+
 	return &KafkaConfiguration{
-		DNS:              os.Getenv("KAFKA_BROKER_LIST"),
-		ConsumerGroup:    os.Getenv("KAFKA_CONSUMER_GROUP"),
-		KafkaTopicPrefix: os.Getenv("KAFKA_TOPIC_PREFIX"),
+		DNS:              "localhost:9092",
+		ConsumerGroup:    "affiliate-registration-consumer-group",
+		KafkaTopicPrefix: "beta-02_",
 		Logger:           logrus.New(),
 	}, nil
 }
