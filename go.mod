@@ -1,4 +1,4 @@
-module kafka
+module github.com/alvi31182/kafka
 
 go 1.22.4
 
