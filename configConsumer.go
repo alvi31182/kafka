@@ -1,6 +1,7 @@
 package kafka
 
 import (
+	"os"
 	"time"
 
 	"github.com/IBM/sarama"
@@ -14,7 +15,16 @@ type KafkaConfiguration struct {
 	Logger           *logrus.Logger
 }
 
-func KafkaConfig() (*sarama.Config, error) {
+func KafkaConfig() (*KafkaConfiguration, error) {
+	return &KafkaConfiguration{
+		DNS:              os.Getenv("KAFKA_BROKER_LIST"),
+		ConsumerGroup:    os.Getenv("KAFKA_CONSUMER_GROUP"),
+		KafkaTopicPrefix: os.Getenv("KAFKA_TOPIC_PREFIX"),
+		Logger:           logrus.New(),
+	}, nil
+}
+
+func (kconf *KafkaConfiguration) KafkaConfig() (*sarama.Config, error) {
 	config := sarama.NewConfig()
 	config.Consumer.Offsets.AutoCommit.Enable = false
 	config.Consumer.Offsets.AutoCommit.Interval = 5 * time.Second
