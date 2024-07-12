@@ -17,7 +17,7 @@ type KafkaConfiguration struct {
 func KafkaConfig() (*KafkaConfiguration, error) {
 
 	return &KafkaConfiguration{
-		DNS:              "affiliate_kafka_go:9092",
+		DNS:              "affiliate_kafka_go",
 		ConsumerGroup:    "affiliate-registration-consumer-group",
 		KafkaTopicPrefix: "beta-02_",
 		Logger:           logrus.New(),
